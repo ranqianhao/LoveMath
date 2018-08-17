@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#ffffff">
+    <EditText
+        android:layout_marginTop="80dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/edit_bg"
+        android:id="@+id/getPswBack_id"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
+        android:inputType="text"
+        android:hint="用户名"
+        />
+    <Button
+        android:id="@+id/get_origin_psw_btn"
+        android:layout_width="330dp"
+        android:textSize="18dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/btnBgColor"
+        android:text="点击获取初始密码"/>
+    <LinearLayout
+        android:layout_width="330dp"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:hint="你的初始密码是："
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/origin_psw"
+            android:text="初始密码在这里"
+            android:textSize="20dp"
+            android:textColor="@color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/backToLogin"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/btnBgColor"
+        android:textSize="18dp"
+        android:text="返回登录页面"/>
+</LinearLayout>
+</android.support.constraint.ConstraintLayout>
