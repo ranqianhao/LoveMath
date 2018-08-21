@@ -29,7 +29,7 @@ public class RegisterActivity extends Activity {
         mPsw = (EditText)findViewById(R.id.register_pwd);
         mCheckPsw = (EditText)findViewById(R.id.register_pwd_sure);
         mSureBtn = (Button)findViewById(R.id.register_sure);
-        mCancelBtn = (Button)findViewById(R.id.register_sure);
+        mCancelBtn = (Button)findViewById(R.id.register_cancel);
 
         //注册界面确认注册按钮的监听事件
         mSureBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,21 +57,20 @@ public class RegisterActivity extends Activity {
 
     }
 
-
     public void register_check() {
 
-if(isUserNameAndPswValid()){
-    String userName = mAccount.getText().toString().trim();
-    String userPsw = mPsw.getText().toString().trim();
-    String userPwdCheck = mCheckPsw.getText().toString().trim();
+        if(isUserNameAndPswValid()){
+              String userName = mAccount.getText().toString().trim();
+              String userPsw = mPsw.getText().toString().trim();
+              String userPwdCheck = mCheckPsw.getText().toString().trim();
     //检查用户是否存在
-    int count=UserDataManager.findUserByName(userName);
-    if (count>0){
+    int mCount=UserDataManager.findUserByName(userName);
+    if (mCount>1){
         Toast.makeText(this,getString(R.string.name_already_exist),Toast.LENGTH_SHORT).show();
         return;
     }
     //两次输入密码不一致的处理
-    if (userPsw.equals(userPwdCheck)==false){
+     if (userPsw.equals(userPwdCheck)==false){
     Toast.makeText(this,getString(R.string.psw_not_the_same),Toast.LENGTH_SHORT).show();
     return;
     } else {
@@ -91,7 +90,7 @@ if(isUserNameAndPswValid()){
     }
 }
 
-
+//使用用户名和密码验证用户是否存在
     public boolean isUserNameAndPswValid() {
         if (mAccount.getText().toString().trim().equals("")) {
             Toast.makeText(this, getString(R.string.account_empty),

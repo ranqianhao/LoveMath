@@ -7,4 +7,6 @@
     <string name="account_empty">用户名为空</string>
     <string name="pwd_empty">密码为空</string>
     <string name="pwd_check_empty">请再次输入密码</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败</string>
 </resources>

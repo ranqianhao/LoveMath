@@ -19,7 +19,21 @@ public class UserDataManager {
     private static final String USER_PSW ="userPsw" ;
     private static Context mContext;
     private static final int DB_VERSION=2;
-    private static final String DB_CREATE= String.format("CREATE TABLE%s(%sInteger primary key,%svarchar,%svarchar);", TABLE_NAME, ID, USER_NAME, USER_PSW);
+
+//    private static final String DB_CREATE = "create table bookStore ("
+//            + "id integer primary key autoincrement,"
+//            + "book_name text, "
+//            + "author text, "
+//            + "price real)";//数据库里的表
+
+    private static final String DB_CREATE = "create table userDb ("
+            + "ID integer primary key autoincrement, "
+            + "USER_NAME varchar, "
+            + "USER_PSW varchar)";
+
+
+ //    private static final String DB_CREATE = new StringBuilder().append("CREATE TABLE").append(TABLE_NAME).append("(").append(ID).append("integer primary key,").append(USER_NAME).append("varchar,").append(USER_PSW).append("varchar").append(");").toString();
+    // private static final String DB_CREATE= String.format("CREATE TABLE%s(%sInteger primary key,%svarchar,%svarchar);", TABLE_NAME, ID, USER_NAME, USER_PSW);
     private static SQLiteDatabase mSQLiteDatabase = null;
     private static DataBaseManagementHelper mDatabaseHelper = null;
 
@@ -34,8 +48,8 @@ public class UserDataManager {
         //创建数据库
         @Override
         public void onCreate(SQLiteDatabase db) {
-            Log.i(TAG, "db.getVersion()=" + db.getVersion());
-            db.execSQL(String.format("DROP TABLE IF EXISTS%s;", TABLE_NAME));
+           Log.i(TAG, "db.getVersion()=" + db.getVersion());
+           db.execSQL(new StringBuilder().append("DROP TABLE IF EXISTS").append(TABLE_NAME).append(";").toString());
             db.execSQL(DB_CREATE);
             Log.i(TAG, "db.execSQL(DB_CREATE)");
             Log.e(TAG, DB_CREATE);
@@ -70,11 +84,12 @@ public class UserDataManager {
     //注册新用户  Userdata是同一package下另一个class Userdata。。getUserName是其方法
     public static long insertUserData(Userdata userdata) {
         String userName=userdata.getUserName();
-        String userPwd=userdata.getUserPsw();
+        String userPsw=userdata.getUserPsw();
         ContentValues values = new ContentValues();
-        values.put(USER_NAME, userName);
-        values.put(USER_PSW, userPwd);
+        values.put(USER_NAME,userName);
+        values.put(USER_PSW, userPsw);
         return mSQLiteDatabase.insert(TABLE_NAME, ID, values);
+
         }
 
     //更新用户信息，如修改密码
@@ -117,12 +132,27 @@ public class UserDataManager {
             return mSQLiteDatabase.delete(TABLE_NAME,null,null)>0;
     }
 
+    public String getStringByColumnName(String columnName, int id) {
+        Cursor mCursor = fetchUserData(id);
+        int columnIndex = mCursor.getColumnIndex(columnName);
+        String columnValue = mCursor.getString(columnIndex);
+        mCursor.close();
+        return columnValue;
+    }
+    //根据id更新
+    public boolean updateUserDataById(String columnName, int id,
+                                      String columnValue) {
+        ContentValues values = new ContentValues();
+        values.put(columnName, columnValue);
+        return mSQLiteDatabase.update(TABLE_NAME, values, ID + "=" + id, null) > 0;
+    }
 
     //根据用户名找用户，可以判断注册时用户名是否已经存在
     public static int findUserByName(String userName){
         Log.i(TAG,"findUserByName , userName="+userName);
         int result=0;
-        Cursor mCursor=mSQLiteDatabase.query(TABLE_NAME, null, USER_NAME+"="+userName, null, null, null, null);
+      //  Cursor mCursor=mSQLiteDatabase.rawQuery("SELECT * FROM userDb WHERE userName=?",USER_NAME);
+         Cursor mCursor=mSQLiteDatabase.query(TABLE_NAME, null, USER_NAME + "=" + userName, null, null, null, null);
         if(mCursor!=null){
             result=mCursor.getCount();
             mCursor.close();
@@ -130,6 +160,8 @@ public class UserDataManager {
         }
         return result;
     }
+
+
 
     //用密码和用户名查询用户，可以用来验证登录
 public int findUserByNameAndPsw(String userName,String psw){

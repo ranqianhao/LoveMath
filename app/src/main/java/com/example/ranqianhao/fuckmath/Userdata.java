@@ -49,7 +49,7 @@ public class Userdata {
     }
 
     public void UserData(String userName, String userPsw) {  //这里只采用用户名和密码
-      //  super();
+       // super();
         this.userName = userName;
         this.userPsw = userPsw;
     }
